@@ -1,0 +1,75 @@
+<div class="posts-page-bg">
+  <div class="bg-shape bg-shape-bottom"></div>
+  <div class="bg-shape bg-shape-left"></div>
+  <div class="container posts-dark-bg">
+    <div class="posts-header-bar">
+      <h1 class="page-title posts-title">Postări</h1>
+      <button mat-button color="primary" (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+    <app-back-button></app-back-button>
+    <button class="action-button add-post-btn" (click)="showAddPostForm = !showAddPostForm">
+      {{ showAddPostForm ? 'Anulează' : 'Adaugă postare' }}
+    </button>
+    <app-posts-new *ngIf="showAddPostForm" (postCreated)="onPostCreated()"></app-posts-new>
+
+    <div *ngFor="let post of posts" class="post-wrapper">
+      <div class="post-card post-card-dark">
+        <h3 class="post-title posts-title-main">{{ post.postTitle }}</h3>
+        <p class="post-description posts-desc">{{ post.postDescription }}</p>
+        <div *ngIf="post.reservation" class="reservation-info">
+          <div class="reservation-field">
+            <span class="reservation-label">Field</span>
+            <span class="reservation-value">{{ post.reservation.fieldId }}</span>
+          </div>
+          <div class="reservation-time">
+            <span class="reservation-label">{{ post.reservation.startTime | date:'mediumDate' }}</span>
+            <span class="reservation-value">{{ post.reservation.startTime | date:'shortTime' }} - {{ post.reservation.endTime | date:'shortTime' }}</span>
+          </div>
+          <div class="reservation-participants">
+            <span class="reservation-label">Participanți:</span>
+            <span class="reservation-value">{{ post.reservation.participantIds?.length || 0 }}/{{ getMaxParticipants(post.reservation) }}</span>
+            <button *ngIf="canJoinReservation(post.reservation)" (click)="joinReservation(post.reservation.reservationId)" class="action-button join-btn">Join</button>
+          </div>
+        </div>
+        <div class="comments-section comments-section-dark">
+          <h4 class="comments-title">
+            <i class="fas fa-comments"></i> Comentarii
+          </h4>
+          <div *ngFor="let comment of post.comments" class="comment comment-dark">
+            <div class="comment-header">
+              <ng-container *ngIf="comment.author">
+                <img *ngIf="comment.author.photoUrl" [src]="comment.author.photoUrl" alt="Author Photo" class="comment-author-photo">
+              </ng-container>
+              <span class="comment-author">{{ comment.author?.username || 'Anonim' }}</span>
+              <button *ngIf="comment.authorId === currentUserId" 
+                      (click)="deleteComment(post, comment)" 
+                      class="delete-comment-btn">
+                <span class="x-line x-line-1"></span>
+                <span class="x-line x-line-2"></span>
+              </button>
+            </div>
+            <p class="comment-content">{{ comment.commentContent }}</p>
+            <div class="comment-meta">
+              <span>{{ comment.createdAt | date:'short' }}</span>
+            </div>
+          </div>
+          <div class="comment-form">
+            <textarea [(ngModel)]="newCommentContent[post.postId || 0]" placeholder="Adaugă un comentariu..." class="comment-textarea"></textarea>
+            <button (click)="addComment(post)" class="comment-button comment-button-dark">
+              <i class="fas fa-paper-plane"></i> Adaugă Comentariu
+            </button>
+          </div>
+        </div>
+        <div class="post-meta-footer">
+          <span class="meta-footer-item">Posted by: {{ post.author?.username || 'Unknown' }}</span>
+          <span class="meta-footer-item">{{ post.createdAt | date:'short' }}</span>
+        </div>
+      </div>
+      <app-posts-edit 
+        *ngIf="editingPostId === post.postId" 
+        [editPost]="post" 
+        (postUpdated)="onPostUpdated($event)">
+      </app-posts-edit>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,184 @@
+/* Styles for register component */
+:host {
+  display: block;
+  background-color: #141215;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.auth-container {
+  background: #141215;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 60%, rgba(255,26,26,0.22) 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.95;
+}
+
+.auth-container::after {
+  content: '';
+  position: absolute;
+  top: -120px; left: -80px;
+  width: 120vw;
+  height: 60vh;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, rgba(255,40,40,0.32) 40%, transparent 80%);
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 0 80%);
+  opacity: 0.85;
+}
+
+.auth-container .bg-shape {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.auth-container .bg-shape-bottom {
+  bottom: -80px;
+  right: -120px;
+  width: 60vw;
+  height: 40vh;
+  background: linear-gradient(120deg, rgba(255,40,40,0.38) 60%, transparent 100%);
+  clip-path: polygon(20% 0, 100% 0, 100% 100%, 0 80%);
+  opacity: 0.85;
+}
+
+.auth-container .bg-shape-left {
+  top: 40vh;
+  left: -100px;
+  width: 40vw;
+  height: 40vh;
+  background: linear-gradient(100deg, rgba(255,60,60,0.32) 60%, transparent 100%);
+  clip-path: polygon(0 0, 100% 20%, 80% 100%, 0 80%);
+  opacity: 0.8;
+}
+
+.auth-card {
+  background: #1a181b;
+  border: 1.5px solid #ff1a1a;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #1a1a1a;
+  padding: 32px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-title {
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.error-message {
+  color: #ff1a1a;
+  margin: 16px 0;
+  text-align: center;
+  font-weight: 500;
+}
+
+.auth-link {
+  text-align: center;
+  margin-top: 24px;
+  color: #fff;
+}
+
+.auth-link a {
+  color: #ff1a1a;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.auth-link a:hover {
+  color: #ff4d4d;
+}
+
+.spinner {
+  margin-right: 8px;
+}
+
+/* Material form field customization */
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+  
+  .mat-form-field-flex {
+    background-color: #18171a;
+    border: 1.5px solid #ff1a1a;
+    border-radius: 8px;
+    padding: 0.5em 0.75em;
+  }
+  
+  .mat-form-field-underline {
+    display: none;
+  }
+  
+  .mat-form-field-label {
+    color: #ffb3b3;
+  }
+  
+  .mat-input-element {
+    color: #fff;
+  }
+}
+
+/* Button customization */
+::ng-deep .mat-raised-button {
+  background-color: #ff1a1a;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 24px;
+  border-radius: 8px;
+  transition: background-color 0.2s, transform 0.2s;
+  
+  &:hover:not([disabled]) {
+    background-color: #d10c0c;
+    transform: scale(1.03);
+  }
+  
+  &:disabled {
+    background-color: #333;
+    color: #aaa;
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-card {
+    margin: 16px;
+    padding: 24px;
+  }
+  
+  .auth-title {
+    font-size: 2rem;
+  }
+}

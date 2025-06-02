@@ -1,0 +1,62 @@
+
+
+<div class="login-container">
+  <div class="overlay">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>PLEASE LOG IN</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <!-- Email Field -->
+          <mat-form-field appearance="fill" class="full-width">
+            <input matInput placeholder="Adresa de email" formControlName="email" type="email" />
+
+            <mat-error *ngIf="loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched">
+              Emailul este obligatoriu.
+            </mat-error>
+
+            <mat-error *ngIf="loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched">
+              Te rugăm să introduci un email valid.
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password Field -->
+          <mat-form-field appearance="fill" class="full-width">
+            <input matInput placeholder="Password" formControlName="password" type="password">
+            <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+              Password is required
+            </mat-error>
+          </mat-form-field>
+
+          <div *ngIf="responseMessage"
+               [ngClass]="{ 'error-msg': isError, 'success-msg': !isError }"
+               class="response-message">
+            {{ responseMessage }}
+          </div>
+          <!-- Submit Button -->
+          <button mat-raised-button
+                  color="primary"
+                  type="submit"
+                  [disabled]="!loginForm.valid || isLoading"
+                  class="login-btn">
+            <span *ngIf="!isLoading">LOGIN</span>
+            <span *ngIf="isLoading">
+              <mat-spinner diameter="20"></mat-spinner>
+            </span>
+          </button>
+
+          <!-- Register Section -->
+          <div class="register-section">
+            <span>Don't have an account?</span>
+            <button mat-button color="accent" type="button" (click)="navigateToRegister()">
+              Register
+            </button>
+          </div>
+        </form>
+       
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

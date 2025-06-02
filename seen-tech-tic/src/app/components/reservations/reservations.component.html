@@ -1,0 +1,131 @@
+
+<div class="posts-page-bg">
+  <div class="bg-shape bg-shape-bottom"></div>
+  <div class="bg-shape bg-shape-left"></div>
+  <div class="container">
+    <div class="posts-header-bar">
+      <h1>Rezervări</h1>
+    </div>
+    <app-back-button></app-back-button>
+
+    <button *ngIf="showAddForm" (click)="cancelAddReservation()" class="action-button toggle-btn">
+      Anulează
+    </button>
+    <button *ngIf="!showAddForm" (click)="toggleAddForm()" class="action-button toggle-btn">
+      Adaugă Rezervare
+    </button>
+
+    <form *ngIf="showAddForm" [formGroup]="reservationForm" (ngSubmit)="addReservation()" class="reservation-form">
+      <label>
+        Teren:
+        <mat-form-field appearance="fill" class="field-select-field">
+          <mat-select formControlName="fieldId" required (selectionChange)="updateOccupiedHours()" panelClass="hour-select-panel">
+            <mat-option *ngFor="let field of fields" [value]="field.id">
+              {{ field.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </label>
+
+      <label *ngIf="reservationForm.get('fieldId')?.value">
+        Data rezervării:
+        <div class="date-hour-group">
+            <mat-form-field appearance="fill" class="date-picker-field">
+              <input matInput [matDatepicker]="picker" formControlName="startDate" required (dateChange)="updateOccupiedHours()" [min]="minDate" />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+          <mat-form-field appearance="fill" class="hour-select-field">
+            <mat-label>Selectează o oră</mat-label>
+            <mat-select formControlName="startHour" required panelClass="hour-select-panel">
+              <mat-option *ngFor="let hour of allHours"
+                          [value]="hour"
+                          [disabled]="occupiedHoursFormatted.includes(hour)"
+                          [ngClass]="{'occupied-hour': occupiedHoursFormatted.includes(hour), 'selected-hour': reservationForm.get('startHour')?.value === hour}">
+                {{ hour }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </label>
+
+      <label *ngIf="reservationForm.get('fieldId')?.value">
+        End Time (ISO):
+        <input type="datetime-local" formControlName="endTime" required readonly />
+      </label>
+
+      <label>
+        Număr maxim de jucători:
+        <input
+          type="number"
+          min="1"
+          formControlName="maxParticipants"
+          class="styled-input"
+          required
+          placeholder="Ex: 12"
+        />
+      </label>
+
+      <!-- Participants search and list -->
+      <div class="participants-section styled-box">
+        <label for="searchUsername" class="styled-label">Adaugă participanți:</label>
+        <div class="search-row">
+          <input
+            id="searchUsername"
+            type="text"
+            [(ngModel)]="searchUsername"
+            (input)="onSearchUsername()"
+            placeholder="Caută username"
+            name="searchUsername"
+            [ngModelOptions]="{standalone: true}"
+            class="styled-input"
+          />
+          <button
+            *ngIf="searchedUser"
+            type="button"
+            (click)="addParticipant(searchedUser)"
+            class="action-button add-btn"
+          >
+            Adaugă
+          </button>
+        </div>
+        <div class="participants-list">
+          <span *ngFor="let user of participants" class="participant-chip">
+            {{ user.username }}
+            <button type="button" (click)="removeParticipant(user)" class="remove-btn">×</button>
+          </span>
+        </div>
+      </div>
+      <!-- End participants search and list -->
+
+      <button type="submit" class="action-button save-btn" [disabled]="reservationForm.invalid">
+        Salvează Rezervarea
+      </button>
+    </form>
+
+    <div *ngFor="let reservation of reservations" class="reservation-card">
+      <p><strong>Start:</strong> {{ reservation.startTime | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>End:</strong> {{ reservation.endTime | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Field ID:</strong> {{ reservation.fieldId }}</p>
+      <p><strong>Author:</strong> {{ getUsername(reservation.authorId) }}</p>
+      <p class="max-participants-line">
+        <span class="max-participants-label">Max participanți:</span>
+        <span class="max-participants-value">{{ getMaxParticipants(reservation) }}</span>
+        <span class="current-participants-ratio"> ({{ reservation.participantIds?.length || 0 }}/{{ getMaxParticipants(reservation) }})</span>
+      </p>
+      <p *ngIf="reservation.participantIds && reservation.participantIds.length">
+        <strong>Participanți:</strong>
+        <span *ngFor="let id of reservation.participantIds; let last = last">
+          {{ getUsername(id) }}<span *ngIf="!last">, </span>
+        </span>
+      </p>
+      <div class="btn-group">
+        <button *ngIf="reservation.authorId === currentUserId" (click)="deleteReservation(reservation)" class="action-button delete-btn">Șterge</button>
+        <button *ngIf="reservation.authorId === currentUserId" (click)="editReservation(reservation)" class="action-button edit-btn" [disabled]="reservation.reservationId !== undefined && editButtonClicked.has(reservation.reservationId)">Modifică</button>
+        <button *ngIf="reservation.authorId !== currentUserId && currentUserId !== null && !isParticipant(reservation)" (click)="joinReservation(reservation)" class="action-button join-btn">Join</button>
+        <button *ngIf="reservation.authorId !== currentUserId && currentUserId !== null && isParticipant(reservation)" (click)="leaveReservation(reservation)" class="action-button leave-btn">Leave</button>
+      </div>
+    </div>
+  </div>
+</div>

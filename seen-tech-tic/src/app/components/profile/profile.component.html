@@ -1,0 +1,117 @@
+<div class="posts-page-bg">
+  <div class="bg-shape bg-shape-bottom"></div>
+  <div class="bg-shape bg-shape-left"></div>
+  <div class="container posts-dark-bg">
+    <div class="posts-header-bar">
+      <h1 class="page-title posts-title">Profil</h1>
+      <button mat-button color="primary" (click)="logout()" class="logout-btn">Logout</button>
+    </div>
+    <app-back-button></app-back-button>
+
+    <div *ngIf="userProfile" class="user-profile">
+      <div class="profile-header">
+        <div class="profile-photo-container">
+          <img *ngIf="userProfile.photoUrl" [src]="userProfile.photoUrl" alt="Profile Photo" class="profile-photo" />
+          <div *ngIf="!userProfile.photoUrl" class="profile-photo-placeholder">
+            <span>No Photo</span>
+          </div>
+          <input
+            #fileInput
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            style="display: none;"
+          />
+          <button *ngIf="isEditing" type="button" (click)="fileInput.click()" class="choose-photo-btn">
+            Choose Photo
+          </button>
+        </div>
+        
+        <div class="profile-info">
+          <div *ngIf="!isEditing">
+            <h2 class="posts-title-main">{{ userProfile.username }}</h2>
+            <p class="posts-desc">Password: ••••••••</p>
+            <button (click)="toggleEdit()" class="submit-button">Edit Profile</button>
+          </div>
+          
+          <div *ngIf="isEditing" class="edit-form">
+            <form [formGroup]="profileForm">
+              <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" formControlName="username" class="form-control" />
+                 <div class="error-message" *ngIf="profileForm.get('username')?.invalid && profileForm.get('username')?.touched">
+                  {{ getErrorMessage('username') }}
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="newPassword">New Password:</label>
+                <div class="password-input">
+                  <input [type]="passwordVisible ? 'text' : 'password'" id="newPassword" formControlName="newPassword" class="form-control" />
+                  <button type="button" (click)="togglePasswordVisibility()" class="cancel-button">
+                    {{ passwordVisible ? 'Hide' : 'Show' }}
+                  </button>
+                </div>
+                 <div class="error-message" *ngIf="profileForm.get('newPassword')?.invalid && (profileForm.get('newPassword')?.dirty || profileForm.get('newPassword')?.touched)">
+                  {{ getErrorMessage('newPassword') }}
+                </div>
+              </div>
+
+               <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password:</label>
+                 <input type="password" id="confirmNewPassword" formControlName="confirmNewPassword" class="form-control" />
+                 <div class="error-message" *ngIf="profileForm.get('confirmNewPassword')?.invalid && (profileForm.get('confirmNewPassword')?.dirty || profileForm.get('confirmNewPassword')?.touched)">
+                  {{ getErrorMessage('confirmNewPassword') }}
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button (click)="saveProfile()" class="submit-button" [disabled]="!profileForm.valid">Save Changes</button>
+                <button (click)="toggleEdit()" class="cancel-button">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="posts-title-main">Your Posts</h2>
+    <div *ngIf="posts.length === 0" class="posts-desc">You have no posts.</div>
+    <div *ngFor="let post of posts" class="post-wrapper">
+      <div class="post-card post-card-dark">
+        <h3 class="post-title posts-title-main">{{ post.postTitle }}</h3>
+        <p class="post-description posts-desc">{{ post.postDescription }}</p>
+        <div *ngIf="post.reservation" class="reservation-info">
+          <div class="reservation-field">
+            <span class="reservation-label">Field</span>
+            <span class="reservation-value">{{ post.reservation.fieldId }}</span>
+          </div>
+          <div class="reservation-time">
+            <span class="reservation-label">{{ post.reservation.startTime | date:'mediumDate' }}</span>
+            <span class="reservation-value">{{ post.reservation.startTime | date:'shortTime' }} - {{ post.reservation.endTime | date:'shortTime' }}</span>
+          </div>
+        </div>
+        <div class="comments-section comments-section-dark">
+          <h4 class="comments-title">
+            <i class="fas fa-comments"></i> Comentarii
+          </h4>
+          <div *ngFor="let comment of post.comments" class="comment comment-dark">
+            <p class="comment-content">{{ comment.commentContent }}</p>
+            <div class="comment-meta">
+              <span class="comment-author">{{ comment.author?.username || 'Anonim' }}</span>
+              <span>{{ comment.createdAt | date:'short' }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-meta-footer">
+          <span class="meta-footer-item">Posted by: {{ post.author?.username || 'Unknown' }}</span>
+          <span class="meta-footer-item">{{ post.createdAt | date:'short' }}</span>
+        </div>
+        <div class="post-actions">
+          <button (click)="editPost(post)" class="submit-button">Edit</button>
+          <button (click)="deletePost(post.postId)" class="cancel-button">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

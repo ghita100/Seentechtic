@@ -1,0 +1,201 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  background-color: #000;
+  background-image: 
+    linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(255, 0, 0, 0.2) 20%, transparent 20%),
+    linear-gradient(115deg, rgba(255, 0, 0, 0.3) 0%, rgba(255, 0, 0, 0.3) 10%, transparent 10%),
+    linear-gradient(155deg, rgba(255, 0, 0, 0.2) 0%, rgba(255, 0, 0, 0.2) 15%, transparent 15%);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Transparent top navbar */
+.navbar {
+  background-color: rgba(20, 20, 20, 0.4);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(8px);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 2px 2px #b30000;
+  margin-left: 0px;
+}
+
+/* Move buttons to center of page */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  text-align: center;
+  padding-top: 150px;
+  gap: 25px;
+}
+
+/* Title styling */
+.main-title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 2px 2px #b30000;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #ccc;
+}
+
+/* Centered button styling */
+.nav-button {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 2px solid #b30000;
+  color: #fff;
+  font-weight: 600;
+  padding: 15px 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: 0.3s ease;
+  backdrop-filter: blur(4px);
+  width: 250px;
+}
+
+.nav-button:hover {
+  background-color: #b30000;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+}
+
+/* Transparent footer, compact layout */
+footer.contact-section {
+  background-color: rgba(20, 20, 20, 0.3);
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+footer.contact-section a {
+  color: #ff4d4d;
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 10px;
+}
+
+footer.contact-section p {
+  display: inline;
+  margin: 0 5px;
+}
+
+.profile-button {
+  background: transparent;
+  border: 1.5px solid #ff1a1a;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-right: 12px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.profile-button .profile-photo-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-button i {
+  // font-size: 1.4rem;
+  // color: #ff1a1a;
+}
+
+.profile-button:hover {
+  background: rgba(255,26,26,0.1);
+  transform: scale(1.05);
+}
+
+.profile-menu {
+  position: absolute;
+  top: 70px;
+  right: 40px;
+  background: #1a181b;
+  border: 1.5px solid #ff1a1a;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 250px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+.profile-menu-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,26,26,0.3);
+}
+
+.profile-icon {
+  font-size: 2rem;
+  color: #ff1a1a;
+}
+
+.username {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #ffb3b3;
+}
+
+.stat-value {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ff1a1a;
+}

@@ -1,0 +1,182 @@
+/* Styles for posts-edit component */
+:host {
+  display: block; /* Important for background to cover the area */
+  background-color: #141215; /* Set the dark background */
+  min-height: 100vh; /* Ensure it covers at least the viewport height */
+  width: 100%; /* Ensure it covers the full width */
+}
+
+.container {
+  max-width: 600px;
+  margin: 32px auto 0 auto;
+  padding: 32px 28px 24px 28px;
+  background: #1a181b;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #1a1a1a;
+  border: 1.5px solid #ff1a1a;
+  color: #fff;
+}
+
+.page-title {
+  color: #fff;
+  text-shadow: 2px 2px 0 #ff1a1a, 0 2px 8px #000;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1.15rem;
+  letter-spacing: 0.5px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #ff1a1a;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #18171a;
+  color: #fff;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.form-control:focus {
+  border-color: #ff1a1a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,26,26,0.2);
+}
+
+textarea.form-control {
+  min-height: 120px;
+  resize: vertical;
+}
+
+select.form-control {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff1a1a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.error {
+  color: #ff1a1a;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.submit-button {
+  flex: 1;
+  background: #ff1a1a;
+  color: #fff;
+  border: none;
+  padding: 14px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px #1a1a1a;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.submit-button:disabled {
+  background: #333;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #d10c0c;
+  transform: scale(1.03);
+}
+
+.cancel-button {
+  background: transparent;
+  color: #ff1a1a;
+  border: 1.5px solid #ff1a1a;
+  padding: 14px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.15rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.cancel-button:hover {
+  background: rgba(255,26,26,0.1);
+  transform: scale(1.03);
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 16px;
+    padding: 24px 20px;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .submit-button,
+  .cancel-button {
+    width: 100%;
+  }
+}
+
+::ng-deep .error-snackbar {
+  background: #1a181b !important;
+  color: #ff1a1a !important;
+  border: 1.5px solid #ff1a1a !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 24px #1a1a1a !important;
+  font-family: 'Montserrat', 'Inter', Arial, sans-serif !important;
+  font-weight: 600 !important;
+  padding: 14px 24px !important;
+}
+
+::ng-deep .error-snackbar .mat-simple-snackbar-action {
+  color: #ff1a1a !important;
+  font-weight: 700 !important;
+}
+
+::ng-deep .error-snackbar .mat-simple-snackbar-action:hover {
+  background: rgba(255, 26, 26, 0.1) !important;
+}

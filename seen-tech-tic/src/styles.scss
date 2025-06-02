@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+html, body { 
+  height: 100%; 
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.response-message {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  text-align: center;
+  
+  &.error {
+    background-color: #ffebee;
+    color: #c62828;
+  }
+  
+  &:not(.error) {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+  }
+}

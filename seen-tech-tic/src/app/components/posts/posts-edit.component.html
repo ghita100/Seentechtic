@@ -1,0 +1,45 @@
+<app-back-button></app-back-button>
+
+<div class="container">
+  <h1 class="page-title">Modifică Postare</h1>
+
+  <form *ngIf="showEditForm" [formGroup]="postForm" (ngSubmit)="updatePost()" class="post-form">
+    <div class="form-group">
+      <label for="postTitle">Titlu Postare</label>
+      <input id="postTitle" type="text" formControlName="postTitle" class="form-control" />
+      <div *ngIf="postForm.get('postTitle')?.touched && postForm.get('postTitle')?.invalid" class="error">
+        Titlul este obligatoriu.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="postDescription">Descriere Postare</label>
+      <textarea id="postDescription" formControlName="postDescription" class="form-control"></textarea>
+      <div *ngIf="postForm.get('postDescription')?.touched && postForm.get('postDescription')?.invalid" class="error">
+        Descrierea este obligatorie.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="reservationId">Selectează Rezervarea</label>
+      <select id="reservationId" formControlName="reservationId" class="form-control">
+        <option [ngValue]="null">Fără Rezervare</option>
+        <option *ngFor="let reservation of reservations" [ngValue]="reservation.reservationId">
+          {{ reservation.fieldName ? reservation.fieldName + ' - ' : '' }}{{ reservation.startTime | date:'mediumDate' }} {{ reservation.startTime | date:'shortTime' }} - {{ reservation.endTime | date:'shortTime' }}
+        </option>
+      </select>
+      <div class="error" *ngIf="postForm.get('reservationId')?.hasError('reservationExists')">
+        Există deja o postare pentru această rezervare.
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="postForm.invalid" class="submit-button">
+        <i class="fas fa-save"></i> Salvează Modificările
+      </button>
+      <button type="button" (click)="cancel()" class="cancel-button">
+        <i class="fas fa-times"></i> Anulează
+      </button>
+    </div>
+  </form>
+</div>
